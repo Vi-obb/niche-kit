@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "niche kit",
+  "homepage": "https://niche-kit.vercel.app/",
+  "items": [
+    {
+      "name": "product-card-01",
+      "type": "registry:block",
+      "title": "Product Card 01",
+      "description": "A simple product card with an image, title, and price.",
+      "registryDependencies": ["button", "card"],
+      "files": [
+        {
+          "path": "registry/ecomm/product-card-01/product-card-01.tsx",
+          "type": "registry:component",
+          "target": "components/niche-kit/product-card-01.tsx"
+        }
+      ]
+    }
+  ]
+}
+
