@@ -1,5 +1,4 @@
-import fs from "fs";
-import path from "path";
+// This file is used in both server and client contexts, so we need to avoid direct fs imports
 
 export interface Block {
   slug: string;
@@ -10,25 +9,31 @@ export interface Block {
   code: string;
 }
 
-function loadCode(filePath: string): string {
-  const fullPath = path.join(process.cwd(), filePath);
-  return fs.readFileSync(fullPath, "utf-8");
-}
-
+// Pre-defined blocks instead of dynamically loading from filesystem
 export const blocks: Block[] = [
-    {
-        slug: 'product-card',
-        title: 'Product Card 01',
-        niche: 'E-commerce',
-        category: 'product-card',
-        preview: '/preview/hero-section/one',
-        code: loadCode('app/preview/product-card/01/page.tsx'),
-    },
-]
+  {
+    slug: "product-card",
+    title: "Product Card 01",
+    niche: "Ecommerce",
+    category: "product-card",
+    preview: "/preview/product-card/01",
+    code: `// This code would typically be loaded from a file
+import { Card } from "@/components/ui/card";
 
-
-
-
+export default function ProductCard01() {
+  return (
+    <Card className="w-full max-w-sm">
+      <div className="p-4">
+        <h3 className="text-lg font-bold">Sample Product</h3>
+        <p className="text-sm text-gray-500">Product description</p>
+        <div className="mt-2 font-semibold">$99.99</div>
+      </div>
+    </Card>
+  );
+}`,
+  },
+  // You can add more blocks here as needed
+];
 
 export const categories = [...new Set(blocks.map((b) => b.category))];
 export const niches = [...new Set(blocks.map((b) => b.niche))];
