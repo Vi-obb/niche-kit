@@ -7,7 +7,7 @@ import { GitHubLogoIcon } from "@radix-ui/react-icons";
 
 export function SiteHeader() {
   return (
-    <header className="w-full fixed top-0 z-50 bg-transparent">
+    <header className="w-full bg-transparent">
       <div className="flex px-4 md:px-32 h-16 items-center justify-between">
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center space-x-2">
@@ -18,7 +18,7 @@ export function SiteHeader() {
         </div>
         <nav className="flex items-center gap-4">
           <ThemeToggle />
-          <Button size="sm" variant="outline" asChild>
+          <Button size="sm" variant="secondary" asChild>
             <Link
               href="https://github.com/Vi-obb/niche-kit"
               target="_blank"
