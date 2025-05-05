@@ -12,7 +12,7 @@ export interface Block {
 // Pre-defined blocks instead of dynamically loading from filesystem
 export const blocks: Block[] = [
   {
-    slug: "product-card",
+    slug: "product-card-01",
     title: "Product Card 01",
     niche: "Ecommerce",
     category: "product-card",
