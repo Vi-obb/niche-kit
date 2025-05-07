@@ -32,33 +32,108 @@ import {
 interface BlockPreviewProps {
   title?: string;
   preview: React.ReactNode;
-  code: string;
+  code?: string;
   slug: string;
+  filePath?: string;
 }
 
 export function BlockPreview({
   title,
   preview,
-  code,
+  code: initialCode,
   slug,
+  filePath,
 }: BlockPreviewProps) {
   const [view, setView] = React.useState<"preview" | "code">("preview");
   const [device, setDevice] = React.useState<"mobile" | "tablet" | "desktop">(
     "desktop"
   );
-  const [copied, setCopied] = React.useState(false);
-  const previewWidth = React.useState(100);
+  // Separate states for the two different copy buttons
+  const [codeCopied, setCodeCopied] = React.useState(false);
+  const [commandCopied, setCommandCopied] = React.useState(false);
+  const [codeTooltipOpen, setCodeTooltipOpen] = React.useState(false);
+  const [commandTooltipOpen, setCommandTooltipOpen] = React.useState(false);
 
-  const copyToClipboard = React.useCallback(() => {
-    if (typeof navigator !== "undefined") {
-      const textToCopy =
-        view === "code" ? code : `pnpm dlx shadcn@latest add button`;
-      navigator.clipboard.writeText(textToCopy).then(() => {
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
+  const [packageManager, setPackageManager] = React.useState<
+    "pnpm" | "npm" | "yarn" | "bun"
+  >("pnpm");
+  const previewWidth = React.useState(100);
+  const [code, setCode] = React.useState<string | null>(initialCode || null);
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  // Set loading state immediately when changing to code view if code needs to be fetched
+  React.useEffect(() => {
+    if (view === "code" && !initialCode && filePath && !code) {
+      setIsLoading(true);
+    }
+  }, [view, initialCode, filePath, code]);
+
+  // Fetch code from API if not provided and filePath is available
+  React.useEffect(() => {
+    async function fetchCode() {
+      if (!initialCode && filePath && view === "code" && !code) {
+        try {
+          const response = await fetch(
+            `/api/code?path=${encodeURIComponent(filePath)}`
+          );
+
+          if (!response.ok) {
+            throw new Error(`Failed to fetch code: ${response.status}`);
+          }
+
+          const data = await response.json();
+          setCode(data.code);
+        } catch (error) {
+          console.error("Error fetching code:", error);
+          setCode("// Error loading code");
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    }
+
+    fetchCode();
+  }, [initialCode, filePath, view, code]);
+
+  // Separate copy functions for each button
+  const copyCodeToClipboard = React.useCallback(() => {
+    if (typeof navigator !== "undefined" && code) {
+      navigator.clipboard.writeText(code).then(() => {
+        setCodeCopied(true);
+        setCodeTooltipOpen(true);
+
+        // Close the tooltip after a delay
+        setTimeout(() => {
+          setCodeCopied(false);
+          setCodeTooltipOpen(false);
+        }, 2000);
       });
     }
-  }, [code, view]);
+  }, [code]);
+
+  const copyCommandToClipboard = React.useCallback(() => {
+    if (typeof navigator !== "undefined") {
+      const baseCmd = {
+        pnpm: "pnpm dlx shadcn@latest add",
+        npm: "npx shadcn@latest add",
+        yarn: "yarn dlx shadcn@latest add",
+        bun: "bunx --bun shadcn@latest add",
+      };
+
+      const textToCopy = `${baseCmd[packageManager]} https://niche-kit.vercel.app/r/${slug}.json`;
+
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        setCommandCopied(true);
+        setCommandTooltipOpen(true);
+
+        // Close the tooltip after a delay
+        setTimeout(() => {
+          setCommandCopied(false);
+          setCommandTooltipOpen(false);
+        }, 2000);
+      });
+    }
+  }, [packageManager, slug]);
 
   const getPreviewWidth = () => {
     switch (device) {
@@ -142,20 +217,24 @@ export function BlockPreview({
             )}
             {view === "code" && (
               <TooltipProvider>
-                <Tooltip>
+                <Tooltip
+                  open={codeTooltipOpen}
+                  onOpenChange={setCodeTooltipOpen}
+                >
                   <TooltipTrigger asChild>
                     <Button
                       variant="ghost"
                       size="icon"
                       className="h-8 w-8"
-                      onClick={copyToClipboard}
+                      onClick={copyCodeToClipboard}
+                      disabled={isLoading}
                     >
                       <Copy className="h-4 w-4" />
                       <span className="sr-only">Copy code</span>
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>
-                    {copied ? "Copied!" : "Copy code"}
+                    {codeCopied ? "Copied!" : "Copy code"}
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
@@ -165,7 +244,7 @@ export function BlockPreview({
                 <TooltipTrigger asChild>
                   <Button variant="outline" size="icon">
                     <Link
-                      href={`https://v0.dev/chat/api/open?url=https://niche-kit.vercel.com/r/${slug}.json`}
+                      href={`https://v0.dev/chat/api/open?url=https://niche-kit.vercel.app/r/${slug}.json`}
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -215,10 +294,28 @@ export function BlockPreview({
           <ResizablePanel defaultSize={1}></ResizablePanel>
         </ResizablePanelGroup>
       ) : (
-        <CodeBlock code={code as string} lang="tsx" />
+        <div>
+          {isLoading ? (
+            <div className="flex items-center justify-center p-8 border border-dashed rounded-xl min-h-[400px]">
+              <p className="text-muted-foreground">Loading code...</p>
+            </div>
+          ) : code === null ? (
+            <div className="flex items-center justify-center p-8 border border-dashed rounded-xl min-h-[400px]">
+              <p className="text-muted-foreground">No code available</p>
+            </div>
+          ) : (
+            <CodeBlock code={code} lang="tsx" />
+          )}
+        </div>
       )}
       <div>
-        <Tabs defaultValue="pnpm" className="h-full">
+        <Tabs
+          defaultValue="pnpm"
+          className="h-full"
+          onValueChange={(value) =>
+            setPackageManager(value as "pnpm" | "npm" | "yarn" | "bun")
+          }
+        >
           <div className="flex items-center">
             <TabsList>
               <TabsTrigger value="pnpm" className="text-xs">
@@ -235,40 +332,60 @@ export function BlockPreview({
               </TabsTrigger>
             </TabsList>
           </div>
-          <div className="border border-dashed w-fit font-mono text-muted p-2 rounded-lg text-xs">
-            <TabsContent value="pnpm" className="">
-              <pre className="language-bash">
-                <code className="text-foreground flex items-center gap-2">
-                  <SquareTerminalIcon className="h-4 w-4" />
-                  pnpm dlx shadcn@latest add button
-                </code>
-              </pre>
-            </TabsContent>
-            <TabsContent value="npm" className="">
-              <pre className="language-bash">
-                <code className="text-foreground flex items-center gap-2">
-                  <SquareTerminalIcon className="h-4 w-4" />
-                  npx shadcn@latest add button
-                </code>
-              </pre>
-            </TabsContent>
-            <TabsContent value="yarn" className="">
-              <pre className="language-bash">
-                <code className="text-foreground flex items-center gap-2">
-                  <SquareTerminalIcon className="h-4 w-4" />
-                  yarn dlx shadcn-ui@latest add button
-                </code>
-              </pre>
-            </TabsContent>
-            <TabsContent value="bun" className="">
-              <pre className="language-bash">
-                <code className="text-foreground flex items-center gap-2">
-                  <SquareTerminalIcon className="h-4 w-4" />
-                  bunx shadcn-ui@latest add button
-                </code>
-              </pre>
-            </TabsContent>
-          </div>
+          <TooltipProvider>
+            <Tooltip
+              open={commandTooltipOpen}
+              onOpenChange={setCommandTooltipOpen}
+            >
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="border border-dashed w-fit font-mono text-muted p-2 rounded-lg text-xs"
+                  onClick={copyCommandToClipboard}
+                >
+                  <TabsContent value="pnpm" className="">
+                    <pre className="language-bash">
+                      <code className="text-foreground flex items-center gap-2">
+                        <SquareTerminalIcon className="h-4 w-4" />
+                        pnpm dlx shadcn@latest add{" "}
+                        {`https://niche-kit.vercel.app/r/${slug}.json`}
+                      </code>
+                    </pre>
+                  </TabsContent>
+                  <TabsContent value="npm" className="">
+                    <pre className="language-bash">
+                      <code className="text-foreground flex items-center gap-2">
+                        <SquareTerminalIcon className="h-4 w-4" />
+                        npx shadcn@latest add{" "}
+                        {`https://niche-kit.vercel.app/r/${slug}.json`}
+                      </code>
+                    </pre>
+                  </TabsContent>
+                  <TabsContent value="yarn" className="">
+                    <pre className="language-bash">
+                      <code className="text-foreground flex items-center gap-2">
+                        <SquareTerminalIcon className="h-4 w-4" />
+                        yarn dlx shadcn@latest add{" "}
+                        {`https://niche-kit.vercel.app/r/${slug}.json`}
+                      </code>
+                    </pre>
+                  </TabsContent>
+                  <TabsContent value="bun" className="">
+                    <pre className="language-bash">
+                      <code className="text-foreground flex items-center gap-2">
+                        <SquareTerminalIcon className="h-4 w-4" />
+                        bunx --bun shadcn@latest add{" "}
+                        {`https://niche-kit.vercel.app/r/${slug}.json`}
+                      </code>
+                    </pre>
+                  </TabsContent>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                {commandCopied ? "Copied!" : "Click to copy"}
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </Tabs>
       </div>
     </div>

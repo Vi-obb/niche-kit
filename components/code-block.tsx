@@ -23,7 +23,7 @@ export async function highlight(code: string, lang: BundledLanguage) {
 }
 
 type Props = {
-  code: string | null;
+  code: string;
   lang: BundledLanguage;
   initial?: JSX.Element;
   preHighlighted?: JSX.Element | null;
@@ -52,36 +52,28 @@ export default function CodeBlock({
 
     let isMounted = true;
 
-    if (code) {
-      highlight(code, lang).then((result) => {
-        if (isMounted) setContent(result);
-      });
-    } else {
-      setContent(
-        <pre className="rounded-xl border border-dashed bg-background p-4 text-xs text-muted-foreground">
-          No code available
-        </pre>
-      );
-    }
+    // The code is guaranteed to be a string from BlockPreview
+    highlight(code, lang).then((result) => {
+      if (isMounted) {
+        setContent(result);
+      }
+    });
 
     return () => {
       isMounted = false;
     };
   }, [code, lang, preHighlighted]);
 
-  return content ? (
+  // Simply return the highlighted content
+  return (
     <div
       className={cn(
-        "[&_code]:text-[13px]/2 [&_pre]:max-h-(--pre-max-height) [&_code]:font-mono [&_pre]:min-h-[32rem] [&_pre]:overflow-auto [&_pre]:border [&_pre]:border-dashed [&_pre]:rounded-xl [&_pre]:!bg-background [&_pre]:p-4 [&_pre]:leading-snug",
+        "[&_code]:text-[13px]/2 [&_pre]:max-h-(--pre-max-height) [&_code]:font-mono [&_pre]:min-h-[400px] [&_pre]:overflow-auto [&_pre]:border [&_pre]:border-dashed [&_pre]:rounded-xl [&_pre]:!bg-background [&_pre]:p-4 [&_pre]:leading-snug",
         className
       )}
       style={{ "--pre-max-height": `${maxHeight}px` } as React.CSSProperties}
     >
       {content}
     </div>
-  ) : (
-    <pre className="rounded-xl border border-dashed bg-background p-4 text-xs text-muted-foreground">
-      Loading...
-    </pre>
   );
 }
