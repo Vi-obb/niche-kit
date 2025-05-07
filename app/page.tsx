@@ -7,13 +7,13 @@ export default function Homepage() {
   return (
     <>
       <SiteHeader />
-      <div className="relative flex flex-col min-h-[100vh] items-center justify-center overflow-hidden">
+      <div className="relative flex flex-col min-h-[85vh] items-center justify-center overflow-hidden px-4 md:px-32 border border-dashed mt-2 md:mt-4 mx-4 md:mx-32 bg-background rounded-3xl">
         {/* Grid Pattern Background */}
         <GridPattern
-          width={40}
-          height={40}
-          x={-1}
-          y={-1}
+          width={50}
+          height={50}
+          x={-8}
+          y={-18}
           strokeDasharray="2 4"
           className="stroke-primary/20 dark:stroke-primary/20 [mask-image:radial-gradient(800px_at_center,white,transparent)]"
         />
