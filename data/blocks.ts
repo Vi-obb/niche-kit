@@ -16,7 +16,14 @@ export const blocks: Block[] = [
     preview: "/preview/product-card/01",
     filePath: "registry/ecomm/product-card-01/product-card-01.tsx",
   },
-  // Add more blocks as needed
+  {
+    slug: "product-card-02",
+    title: "Product Card 02",
+    niche: "Ecommerce",
+    category: "product-card",
+    preview: "/preview/product-card/02",
+    filePath: "registry/ecomm/product-card-02/product-card-02.tsx",
+  },
 ];
 
 export const categories = [...new Set(blocks.map((b) => b.category))];

@@ -6,21 +6,30 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 
 interface ProductCardOneProps {
-  name: string;
-  price: string;
-  imageUrl: string;
+  name?: string;
+  price?: string;
+  imageUrl?: string;
   isFavorite?: boolean;
   onAddToCart?: () => void;
   onToggleFavorite?: () => void;
 }
 
+const data = {
+  name: "Donut",
+  price: "$125",
+  imageUrl: "/donut.webp",
+  isFavorite: false,
+  onAddToCart: () => console.log("Added to cart"),
+  onToggleFavorite: () => console.log("Toggled favorite"),
+};
+
 export default function ProductCardOne({
-  name,
-  price,
-  imageUrl,
-  isFavorite = false,
-  onAddToCart = () => {},
-  onToggleFavorite = () => {},
+  name = data.name,
+  price = data.price,
+  imageUrl = data.imageUrl,
+  isFavorite = data.isFavorite,
+  onAddToCart = data.onAddToCart,
+  onToggleFavorite = data.onToggleFavorite,
 }: ProductCardOneProps) {
   return (
     <Card className="w-full max-w-[240px] overflow-hidden bg-muted">

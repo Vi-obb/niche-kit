@@ -16,6 +16,20 @@
           "target": "components/niche-kit/product-card-01.tsx"
         }
       ]
+    },
+    {
+      "name": "product-card-02",
+      "type": "registry:block",
+      "title": "Product Card 02",
+      "description": "A horizontal product card with an image, title, and price.",
+      "registryDependencies": ["button", "dialog"],
+      "files": [
+        {
+          "path": "registry/ecomm/product-card-02/product-card-02.tsx",
+          "type": "registry:component",
+          "target": "components/niche-kit/product-card-02.tsx"
+        }
+      ]
     }
   ]
 }
