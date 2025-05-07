@@ -8,6 +8,7 @@ const CategoryIllustrations: Record<
   React.FC<React.SVGProps<SVGSVGElement>>
 > = {
   "product-card": ProductCardIllustration,
+  "cart": ProductCardIllustration, 
   // Add more category illustrations as they become available
   // Example: "blog-card": BlogCardIllustration,
 };

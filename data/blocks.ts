@@ -8,6 +8,9 @@ export interface Block {
 }
 
 export const blocks: Block[] = [
+  // E-commerce Blocks
+
+  // Product Cards
   {
     slug: "product-card-01",
     title: "Product Card 01",
@@ -23,6 +26,16 @@ export const blocks: Block[] = [
     category: "product-card",
     preview: "/preview/product-card/02",
     filePath: "registry/ecomm/product-card-02/product-card-02.tsx",
+  },
+
+  // Shopping Carts
+  {
+    slug: "cart-sheet",
+    title: "Cart Sheet",
+    niche: "Ecommerce",
+    category: "cart",
+    preview: "/preview/cart/sheet",
+    filePath: "registry/ecomm/cart-sheet/cart-sheet.tsx",
   },
 ];
 

@@ -30,6 +30,20 @@
           "target": "components/niche-kit/product-card-02.tsx"
         }
       ]
+    },
+    {
+      "name": "cart-sheet",
+      "type": "registry:block",
+      "title": "Cart Sheet",
+      "description": "A cart sheet that displays the items in the cart.",
+      "registryDependencies": ["button", "sheet"],
+      "files": [
+        {
+          "path": "registry/ecomm/cart-sheet/cart-sheet.tsx",
+          "type": "registry:component",
+          "target": "components/niche-kit/cart-sheet.tsx"
+        }
+      ]
     }
   ]
 }

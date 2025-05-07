@@ -20,11 +20,11 @@ export default function Homepage() {
 
         {/* Hero Content */}
         <div className="relative z-10 flex flex-col items-center justify-center gap-6 px-4 text-center">
-          <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
-            Build faster, Sell better
+          <h1 className="font-bold tracking-tighter text-3xl md:text-6xl">
+            Build Faster with Tailored UI Blocks for Every Niche
           </h1>
-          <p className="max-w-[42rem] text-muted-foreground sm:text-xl md:text-2xl">
-            Tailored, modern web UI blocks for your next app idea.
+          <p className="max-w-[42rem] text-muted-foreground md:text-lg">
+            Niche Kit is an open-source UI library for the web, powered by shadcn/ui.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 mt-4">
             <Button asChild size="lg">
