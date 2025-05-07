@@ -10,6 +10,7 @@ import {
   SquareTerminalIcon,
 } from "lucide-react";
 import Link from "next/link";
+import { sendGAEvent } from "@next/third-parties/google";
 
 import { cn } from "@/lib/utils";
 import CodeBlock from "./code-block";
@@ -35,6 +36,7 @@ interface BlockPreviewProps {
   code?: string;
   slug: string;
   filePath?: string;
+  category?: string;
 }
 
 export function BlockPreview({
@@ -43,6 +45,7 @@ export function BlockPreview({
   code: initialCode,
   slug,
   filePath,
+  category,
 }: BlockPreviewProps) {
   const [view, setView] = React.useState<"preview" | "code">("preview");
   const [device, setDevice] = React.useState<"mobile" | "tablet" | "desktop">(
@@ -247,6 +250,12 @@ export function BlockPreview({
                       href={`https://v0.dev/chat/api/open?url=https://niche-kit.vercel.app/r/${slug}.json`}
                       target="_blank"
                       rel="noreferrer"
+                      onClick={() =>
+                        sendGAEvent("event", "open_in_v0", {
+                          block_title: title,
+                          block_category: category,
+                        })
+                      }
                     >
                       <svg
                         viewBox="0 0 40 20"
