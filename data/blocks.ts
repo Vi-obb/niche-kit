@@ -17,7 +17,7 @@ export const blocks: Block[] = [
     niche: "Ecommerce",
     category: "product-card",
     preview: "/preview/product-card/01",
-    code: `// This code would typically be loaded from a file
+    code: `
 import { Card } from "@/components/ui/card";
 
 export default function ProductCard01() {

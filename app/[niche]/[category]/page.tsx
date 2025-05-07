@@ -1,5 +1,6 @@
 import { blocks } from "@/data/blocks";
 import Link from "next/link";
+import { BlockPreview } from "@/components/block-preview";
 import { ArrowLeft } from "lucide-react";
 
 type Params = Promise<{
@@ -27,7 +28,10 @@ export default async function CategoryPage({ params }: { params: Params }) {
   return (
     <div className="border p-7 rounded-xl border-dashed bg-background">
       <div className="mb-6 flex flex-col gap-2 items-start">
-        <Link href={`/${niche}`} className="inline-flex items-center gap-2 text-sm hover:underline text-muted-foreground">
+        <Link
+          href={`/${niche}`}
+          className="inline-flex items-center gap-2 text-sm hover:underline text-muted-foreground"
+        >
           <ArrowLeft className="h-4 w-4" />
           Back to blocks
         </Link>
@@ -36,16 +40,12 @@ export default async function CategoryPage({ params }: { params: Params }) {
 
       <div className="flex flex-col">
         {categoryBlocks.map((block) => (
-          <Link key={block.slug} href={block.preview}>
-            <div>
-              <h3 className="text-md font-semibold">{block.title}</h3>
-            </div>
-          </Link>
+          <BlockPreview {...block} key={block.slug} />
         ))}
       </div>
 
       {categoryBlocks.length === 0 && (
-        <div className="rounded-lg border p-8 text-center">
+        <div className="rounded-lg border border-dashed p-8 text-center">
           <h2 className="text-xl font-semibold">No components found</h2>
           <p className="mt-2 text-muted-foreground">
             No components are available for the {formattedCategory} category

@@ -23,12 +23,12 @@ export default function ProductCardOne({
   onToggleFavorite = () => {},
 }: ProductCardOneProps) {
   return (
-    <Card className="w-full max-w-[240px] overflow-hidden bg-gray-50">
+    <Card className="w-full max-w-[240px] overflow-hidden bg-muted">
       <div className="relative">
         <Button
           variant="ghost"
           size="icon"
-          className="absolute right-2 top-2 z-10 h-8 w-8 rounded-full bg-white/80 p-0 backdrop-blur-sm"
+          className="absolute right-2 top-2 z-10 h-8 w-8 rounded-full p-0 backdrop-blur-sm"
           onClick={onToggleFavorite}
         >
           <Heart
