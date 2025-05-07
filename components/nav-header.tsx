@@ -33,7 +33,7 @@ export function NavHeader() {
                       <Link
                         href={item.url}
                         className={cn(
-                          buttonVariants({ variant: "outline", size: "sm" }),
+                          buttonVariants({ variant: "secondary", size: "sm" }),
                           "transition-all",
                           hovered === item.id || isActive
                             ? "bg-accent text-accent-foreground"

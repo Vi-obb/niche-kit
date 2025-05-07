@@ -1,5 +1,6 @@
 import { blocks } from "@/data/blocks";
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 type Params = Promise<{
   niche: string;
@@ -25,15 +26,19 @@ export default async function CategoryPage({ params }: { params: Params }) {
 
   return (
     <div className="border p-7 rounded-xl border-dashed bg-background">
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold">{formattedCategory}</h1>
+      <div className="mb-6 flex flex-col gap-2 items-start">
+        <Link href={`/${niche}`} className="inline-flex items-center gap-2 text-sm hover:underline text-muted-foreground">
+          <ArrowLeft className="h-4 w-4" />
+          Back to blocks
+        </Link>
+        <h1 className="text-2xl font-bold">{formattedCategory}</h1>
       </div>
 
       <div className="flex flex-col">
         {categoryBlocks.map((block) => (
           <Link key={block.slug} href={block.preview}>
             <div>
-              <h3 className="text-lg font-semibold">{block.title}</h3>
+              <h3 className="text-md font-semibold">{block.title}</h3>
             </div>
           </Link>
         ))}

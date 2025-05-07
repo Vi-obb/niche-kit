@@ -18,7 +18,7 @@ export function SiteHeader() {
         </div>
         <nav className="flex items-center gap-4">
           <ThemeToggle />
-          <Button size="sm" variant="secondary" asChild>
+          <Button size="sm" variant="outline" asChild>
             <Link
               href="https://github.com/Vi-obb/niche-kit"
               target="_blank"
