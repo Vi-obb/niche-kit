@@ -58,7 +58,9 @@ export default function CodeBlock({
       });
     } else {
       setContent(
-        <pre className="rounded-xl bg-background p-4">No code available</pre>
+        <pre className="rounded-xl border border-dashed bg-background p-4 text-xs text-muted-foreground">
+          No code available
+        </pre>
       );
     }
 
@@ -78,6 +80,8 @@ export default function CodeBlock({
       {content}
     </div>
   ) : (
-    <pre className="rounded-xl bg-background p-4">Loading...</pre>
+    <pre className="rounded-xl border border-dashed bg-background p-4 text-xs text-muted-foreground">
+      Loading...
+    </pre>
   );
 }
