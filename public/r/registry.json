@@ -16,6 +16,34 @@
           "target": "components/niche-kit/product-card-01.tsx"
         }
       ]
+    },
+    {
+      "name": "product-card-02",
+      "type": "registry:block",
+      "title": "Product Card 02",
+      "description": "A horizontal product card with an image, title, and price.",
+      "registryDependencies": ["button", "dialog"],
+      "files": [
+        {
+          "path": "registry/ecomm/product-card-02/product-card-02.tsx",
+          "type": "registry:component",
+          "target": "components/niche-kit/product-card-02.tsx"
+        }
+      ]
+    },
+    {
+      "name": "cart-sheet",
+      "type": "registry:block",
+      "title": "Cart Sheet",
+      "description": "A cart sheet that displays the items in the cart.",
+      "registryDependencies": ["button", "sheet"],
+      "files": [
+        {
+          "path": "registry/ecomm/cart-sheet/cart-sheet.tsx",
+          "type": "registry:component",
+          "target": "components/niche-kit/cart-sheet.tsx"
+        }
+      ]
     }
   ]
 }
