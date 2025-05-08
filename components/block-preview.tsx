@@ -157,7 +157,7 @@ export function BlockPreview({
         "overflow-hidden w-full flex flex-col gap-4 py-4 border-t border-dashed"
       )}
     >
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 pt-8">
         <h2>{title}</h2>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -282,7 +282,7 @@ export function BlockPreview({
         </div>
       </div>
       {view === "preview" ? (
-        <ResizablePanelGroup direction="horizontal" className="min-h-[400px]">
+        <ResizablePanelGroup direction="horizontal" className="min-h-[800px]">
           <ResizablePanel
             defaultSize={99}
             minSize={30}

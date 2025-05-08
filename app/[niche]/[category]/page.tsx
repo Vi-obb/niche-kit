@@ -8,6 +8,16 @@ type Params = Promise<{
   category: string;
 }>;
 
+export const dynamic = "force-static";
+export const revalidate = 3600;
+
+export async function generateMetadata({ params }: { params: Params }) {
+  const { niche, category } = await params;
+  return {
+    title: `Shadcn ${niche} ${category} | Niche kit`,
+  };
+}
+
 export default async function CategoryPage({ params }: { params: Params }) {
   const { niche, category } = await params;
 
@@ -23,7 +33,7 @@ export default async function CategoryPage({ params }: { params: Params }) {
     category
       .split("-")
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ") + "s";
+      .join(" ");
 
   return (
     <div className="border p-7 rounded-xl border-dashed bg-background">
@@ -38,7 +48,7 @@ export default async function CategoryPage({ params }: { params: Params }) {
         <h1 className="text-2xl font-bold">{formattedCategory}</h1>
       </div>
 
-      <div className="flex flex-col gap-16">
+      <div className="flex flex-col gap-12">
         {categoryBlocks.map((block) => (
           <BlockPreview {...block} key={block.slug} />
         ))}
