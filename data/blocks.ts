@@ -13,18 +13,18 @@ export const blocks: Block[] = [
   // Product Cards
   {
     slug: "product-card-01",
-    title: "Product Card 01",
+    title: "Simple product card",
     niche: "Ecommerce",
-    category: "product-card",
-    preview: "/preview/product-card/01",
+    category: "product-cards",
+    preview: "/preview/product-cards/product-card-01",
     filePath: "registry/ecomm/product-card-01/product-card-01.tsx",
   },
   {
     slug: "product-card-02",
-    title: "Product Card 02",
+    title: "Product card with horizontal layout",
     niche: "Ecommerce",
-    category: "product-card",
-    preview: "/preview/product-card/02",
+    category: "product-cards",
+    preview: "/preview/product-cards/product-card-02",
     filePath: "registry/ecomm/product-card-02/product-card-02.tsx",
   },
 
@@ -33,8 +33,8 @@ export const blocks: Block[] = [
     slug: "cart-sheet",
     title: "Cart Sheet",
     niche: "Ecommerce",
-    category: "cart",
-    preview: "/preview/cart/sheet",
+    category: "carts",
+    preview: "/preview/carts/cart-sheet",
     filePath: "registry/ecomm/cart-sheet/cart-sheet.tsx",
   },
 ];

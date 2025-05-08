@@ -2,7 +2,6 @@ import { SiteHeader } from "@/components/site-header";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { SiteFooter } from "@/components/site-footer";
 
 export default function Homepage() {
   return (
@@ -22,7 +21,7 @@ export default function Homepage() {
         {/* Hero Content */}
         <div className="relative z-10 flex flex-col items-center justify-center gap-6 px-4 text-center">
           <h1 className="font-bold tracking-tighter text-3xl md:text-6xl">
-            Build Faster with Tailored UI Blocks for Every Niche
+            Build Faster with Tailored UI Blocks for Every App
           </h1>
           <p className="max-w-[42rem] text-muted-foreground md:text-lg">
             Niche Kit is an open-source UI library for the web, powered by shadcn/ui.
@@ -34,7 +33,6 @@ export default function Homepage() {
           </div>
         </div>
       </div>
-      <SiteFooter />
     </>
   );
 }

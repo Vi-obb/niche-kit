@@ -7,15 +7,24 @@ const CategoryIllustrations: Record<
   string,
   React.FC<React.SVGProps<SVGSVGElement>>
 > = {
-  "product-card": ProductCardIllustration,
-  "cart": ProductCardIllustration, 
-  // Add more category illustrations as they become available
-  // Example: "blog-card": BlogCardIllustration,
+  "product-cards": ProductCardIllustration,
+  "carts": ProductCardIllustration, 
+  
 };
 
 type Params = Promise<{
   niche: string;
 }>;
+
+export const dynamic = "force-static";
+export const revalidate = 3600;
+
+export async function generateMetadata({ params }: { params: Params }) {
+  const { niche } = await params;
+  return {
+    title: `${niche} blocks | Niche kit`,
+  };
+}
 
 export default async function NichePage({ params }: { params: Params }) {
   const { niche } = await params;
@@ -31,9 +40,9 @@ export default async function NichePage({ params }: { params: Params }) {
 
   return (
     <div>
-      <div className="grid gap-6 grid-cols-2 md:grid-cols-4 border p-4 rounded-xl border-dashed">
+      <div className="grid gap-6 grid-cols-2 md:grid-cols-4 border p-4 rounded-xl bg-background border-dashed">
         {categories.map((category) => {
-          // Get the illustration component for this category if available
+          
           const IllustrationComponent = CategoryIllustrations[category];
 
           return (
@@ -41,7 +50,7 @@ export default async function NichePage({ params }: { params: Params }) {
               <div className="h-full">
                 <div className="p-3 flex flex-col justify-between h-full">
                   {IllustrationComponent && (
-                    <div className="flex p-3 border rounded-md border-dashed justify-center mb-2">
+                    <div className="flex p-3 border bg-muted rounded-md border-dashed justify-center mb-2">
                       <IllustrationComponent width={100} height={125} />
                     </div>
                   )}
@@ -51,7 +60,7 @@ export default async function NichePage({ params }: { params: Params }) {
                       .map(
                         (word) => word.charAt(0).toUpperCase() + word.slice(1)
                       )
-                      .join(" ") + "s"}
+                      .join(" ")}
                   </h3>
                   <p className="text-sm text-muted-foreground">
                     {

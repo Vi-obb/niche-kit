@@ -6,10 +6,10 @@ import { ThemeToggle } from "./theme-toggle";
 export function SiteFooter() {
   return (
     <footer className="w-full bg-transparent">
-      <div className="flex px-4 md:px-32 h-16 items-center justify-between text-muted-foreground">
+      <div className="flex px-4 md:px-32 h-16 items-center justify-between text-sm text-muted-foreground">
         <div className="flex items-center gap-6">
           <span className="inline-block font-medium">
-            Tailored UI blocks for every niche
+            Tailored UI blocks for every app
           </span>
         </div>
         <div className="flex items-center gap-4">
