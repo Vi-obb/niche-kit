@@ -21,14 +21,14 @@ export async function generateMetadata({ params }: { params: Params }) {
 export default async function CategoryPage({ params }: { params: Params }) {
   const { niche, category } = await params;
 
-  // Get blocks for this niche and category
+  
   const categoryBlocks = blocks.filter(
     (block) =>
       block.niche.toLowerCase() === niche.toLowerCase() &&
       block.category === category
   );
 
-  // Format category name for display
+  
   const formattedCategory =
     category
       .split("-")

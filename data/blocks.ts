@@ -4,7 +4,7 @@ export interface Block {
   niche: string;
   category: string;
   preview: string;
-  filePath?: string; // Optional path to the file that contains the code
+  filePath?: string; 
 }
 
 export const blocks: Block[] = [

@@ -25,7 +25,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import {
-  ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
@@ -51,7 +50,7 @@ export function BlockPreview({
   const [device, setDevice] = React.useState<"mobile" | "tablet" | "desktop">(
     "desktop"
   );
-  // Separate states for the two different copy buttons
+
   const [codeCopied, setCodeCopied] = React.useState(false);
   const [commandCopied, setCommandCopied] = React.useState(false);
   const [codeTooltipOpen, setCodeTooltipOpen] = React.useState(false);
@@ -60,18 +59,16 @@ export function BlockPreview({
   const [packageManager, setPackageManager] = React.useState<
     "pnpm" | "npm" | "yarn" | "bun"
   >("pnpm");
-  const previewWidth = React.useState(100);
+  const [previewWidth, setPreviewWidth] = React.useState(100);
   const [code, setCode] = React.useState<string | null>(initialCode || null);
   const [isLoading, setIsLoading] = React.useState(false);
 
-  // Set loading state immediately when changing to code view if code needs to be fetched
   React.useEffect(() => {
     if (view === "code" && !initialCode && filePath && !code) {
       setIsLoading(true);
     }
   }, [view, initialCode, filePath, code]);
 
-  // Fetch code from API if not provided and filePath is available
   React.useEffect(() => {
     async function fetchCode() {
       if (!initialCode && filePath && view === "code" && !code) {
@@ -98,14 +95,12 @@ export function BlockPreview({
     fetchCode();
   }, [initialCode, filePath, view, code]);
 
-  // Separate copy functions for each button
   const copyCodeToClipboard = React.useCallback(() => {
     if (typeof navigator !== "undefined" && code) {
       navigator.clipboard.writeText(code).then(() => {
         setCodeCopied(true);
         setCodeTooltipOpen(true);
 
-        // Close the tooltip after a delay
         setTimeout(() => {
           setCodeCopied(false);
           setCodeTooltipOpen(false);
@@ -129,7 +124,6 @@ export function BlockPreview({
         setCommandCopied(true);
         setCommandTooltipOpen(true);
 
-        // Close the tooltip after a delay
         setTimeout(() => {
           setCommandCopied(false);
           setCommandTooltipOpen(false);
@@ -181,8 +175,16 @@ export function BlockPreview({
                   type="single"
                   value={device}
                   onValueChange={(value) => {
-                    if (value)
-                      setDevice(value as "mobile" | "tablet" | "desktop");
+                    if (value) {
+                      const newDevice = value as
+                        | "mobile"
+                        | "tablet"
+                        | "desktop";
+                      setDevice(newDevice);
+                      if (newDevice === "desktop") {
+                        setPreviewWidth(100);
+                      }
+                    }
                   }}
                 >
                   <ToggleGroupItem value="mobile" size="sm" className="px-2">
@@ -284,9 +286,14 @@ export function BlockPreview({
       {view === "preview" ? (
         <ResizablePanelGroup direction="horizontal" className="min-h-[800px]">
           <ResizablePanel
-            defaultSize={99}
+            defaultSize={100}
             minSize={30}
             className={cn(getPreviewWidth())}
+            onResize={(size) => {
+              if (device === "desktop") {
+                setPreviewWidth(size);
+              }
+            }}
           >
             <div
               className={cn("h-full w-full border border-dashed rounded-xl")}
@@ -299,8 +306,6 @@ export function BlockPreview({
               />
             </div>
           </ResizablePanel>
-          <ResizableHandle withHandle />
-          <ResizablePanel defaultSize={1}></ResizablePanel>
         </ResizablePanelGroup>
       ) : (
         <div>

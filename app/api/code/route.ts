@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
+import { blocks } from "@/data/blocks";
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
-  const filePath = searchParams.get("path");
+  const requestedPath = searchParams.get("path");
 
-  if (!filePath) {
+  if (!requestedPath) {
     return NextResponse.json(
       { error: "No file path provided" },
       { status: 400 }
@@ -14,16 +15,21 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    // Normalize the file path to prevent directory traversal attacks
-    const normalizedPath = path
-      .normalize(filePath)
-      .replace(/^(\.\.(\/|\\|$))+/, "");
+    const block = blocks.find((b) => b.filePath === requestedPath);
 
-    // Determine the base directory - in production it might be different
+    if (!block || !block.filePath) {
+      console.error(`Block not found for path: ${requestedPath}`);
+      return NextResponse.json(
+        { error: "File path not found in blocks data" },
+        { status: 404 }
+      );
+    }
+
+    const filePath = block.filePath;
+
     const baseDir = process.cwd();
-    const fullPath = path.join(baseDir, normalizedPath);
+    const fullPath = path.join(baseDir, filePath);
 
-    // Safety check: Make sure the file is within the project directory
     if (path.relative(baseDir, fullPath).startsWith("..")) {
       console.error(
         `Security violation: Attempted to access file outside project directory: ${filePath}`
@@ -34,13 +40,17 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Check if file exists before trying to read it
     if (!fs.existsSync(fullPath)) {
       console.error(`File not found: ${fullPath}`);
-      return NextResponse.json({ error: "File not found" }, { status: 404 });
+      return NextResponse.json(
+        {
+          error: "File not found",
+          details: `Block found in data, but file not found at path: ${filePath}`,
+        },
+        { status: 404 }
+      );
     }
 
-    // Check if path points to a file, not a directory
     const stats = fs.statSync(fullPath);
     if (!stats.isFile()) {
       console.error(`Not a file: ${fullPath}`);
@@ -50,8 +60,7 @@ export async function GET(request: NextRequest) {
     const fileContent = fs.readFileSync(fullPath, "utf-8");
     return NextResponse.json({ code: fileContent });
   } catch (error) {
-    // Enhanced error logging
-    console.error(`Error processing file request for ${filePath}:`, error);
+    console.error(`Error processing file request for ${requestedPath}:`, error);
     console.error(`Working directory: ${process.cwd()}`);
     console.error(`Environment: ${process.env.NODE_ENV}`);
 
