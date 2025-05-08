@@ -12,7 +12,7 @@ export function SiteHeader() {
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center space-x-2">
             <span className="inline-block font-semibold text-xl">
-              niche kit
+              Niche kit
             </span>
           </Link>
         </div>

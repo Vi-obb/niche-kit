@@ -38,7 +38,7 @@ export default async function CategoryPage({ params }: { params: Params }) {
         <h1 className="text-2xl font-bold">{formattedCategory}</h1>
       </div>
 
-      <div className="flex flex-col gap-16">
+      <div className="flex flex-col gap-12">
         {categoryBlocks.map((block) => (
           <BlockPreview {...block} key={block.slug} />
         ))}

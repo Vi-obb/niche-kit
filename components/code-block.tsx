@@ -68,7 +68,7 @@ export default function CodeBlock({
   return (
     <div
       className={cn(
-        "[&_code]:text-[13px]/2 [&_pre]:max-h-(--pre-max-height) [&_code]:font-mono [&_pre]:min-h-[400px] [&_pre]:overflow-auto [&_pre]:border [&_pre]:border-dashed [&_pre]:rounded-xl [&_pre]:!bg-background [&_pre]:p-4 [&_pre]:leading-snug",
+        "[&_code]:text-[13px]/2 [&_code]:font-mono [&_pre]:min-h-[400px] [&_pre]:max-h-[800px] [&_pre]:overflow-auto [&_pre]:border [&_pre]:border-dashed [&_pre]:rounded-xl [&_pre]:!bg-background [&_pre]:p-4 [&_pre]:leading-snug",
         className
       )}
       style={{ "--pre-max-height": `${maxHeight}px` } as React.CSSProperties}

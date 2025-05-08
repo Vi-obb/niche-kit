@@ -2,12 +2,13 @@ import { SiteHeader } from "@/components/site-header";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { SiteFooter } from "@/components/site-footer";
 
 export default function Homepage() {
   return (
     <>
       <SiteHeader />
-      <div className="relative flex flex-col min-h-[85vh] items-center justify-center overflow-hidden px-4 md:px-32 border border-dashed mt-2 md:mt-4 mx-4 md:mx-32 bg-background rounded-3xl">
+      <div className="relative flex flex-col min-h-[80vh] items-center justify-center overflow-hidden px-4 md:px-32 border border-dashed mt-2 md:mt-4 mx-4 md:mx-32 bg-background rounded-3xl">
         {/* Grid Pattern Background */}
         <GridPattern
           width={50}
@@ -33,6 +34,7 @@ export default function Homepage() {
           </div>
         </div>
       </div>
+      <SiteFooter />
     </>
   );
 }
