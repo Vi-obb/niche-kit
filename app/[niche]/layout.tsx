@@ -1,7 +1,7 @@
-import { NavHeader } from "@/components/nav-header";
+import { CategoryNav } from "@/components/category-nav";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-
+import { niches } from "@/data/blocks";
 
 export default function NicheLayout({
   children,
@@ -11,7 +11,7 @@ export default function NicheLayout({
   return (
     <>
       <SiteHeader />
-      <NavHeader />
+      <CategoryNav niches={niches} />
       <div className="px-4 md:px-32 py-4">{children}</div>
       <SiteFooter />
     </>

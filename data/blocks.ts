@@ -1,10 +1,18 @@
+import fs from "fs";
+import path from "path";
+
 export interface Block {
   slug: string;
   title: string;
   niche: string;
   category: string;
   preview: string;
-  filePath?: string; 
+  code: string; 
+}
+
+function loadCode(filePath: string): string {
+  const fullPath = path.join(process.cwd(), filePath);
+  return fs.readFileSync(fullPath, "utf-8");
 }
 
 export const blocks: Block[] = [
@@ -17,7 +25,7 @@ export const blocks: Block[] = [
     niche: "Ecommerce",
     category: "product-cards",
     preview: "/preview/product-cards/product-card-01",
-    filePath: "registry/ecomm/product-card-01/product-card-01.tsx",
+    code: loadCode("registry/ecomm/product-card-01/product-card-01.tsx"),
   },
   {
     slug: "product-card-02",
@@ -25,7 +33,7 @@ export const blocks: Block[] = [
     niche: "Ecommerce",
     category: "product-cards",
     preview: "/preview/product-cards/product-card-02",
-    filePath: "registry/ecomm/product-card-02/product-card-02.tsx",
+    code: loadCode("registry/ecomm/product-card-02/product-card-02.tsx"),
   },
 
   // Shopping Carts
@@ -35,7 +43,7 @@ export const blocks: Block[] = [
     niche: "Ecommerce",
     category: "carts",
     preview: "/preview/carts/cart-sheet",
-    filePath: "registry/ecomm/cart-sheet/cart-sheet.tsx",
+    code: loadCode("registry/ecomm/cart-sheet/cart-sheet.tsx"),
   },
 ];
 

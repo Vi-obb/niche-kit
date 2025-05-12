@@ -24,17 +24,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import {
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/components/ui/resizable";
+import { ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 
 interface BlockPreviewProps {
   title?: string;
   preview: React.ReactNode;
   code?: string;
   slug: string;
-  filePath?: string;
   category?: string;
 }
 
@@ -43,7 +39,6 @@ export function BlockPreview({
   preview,
   code: initialCode,
   slug,
-  filePath,
   category,
 }: BlockPreviewProps) {
   const [view, setView] = React.useState<"preview" | "code">("preview");
@@ -60,40 +55,10 @@ export function BlockPreview({
     "pnpm" | "npm" | "yarn" | "bun"
   >("pnpm");
   const [previewWidth, setPreviewWidth] = React.useState(100);
-  const [code, setCode] = React.useState<string | null>(initialCode || null);
-  const [isLoading, setIsLoading] = React.useState(false);
-
-  React.useEffect(() => {
-    if (view === "code" && !initialCode && filePath && !code) {
-      setIsLoading(true);
-    }
-  }, [view, initialCode, filePath, code]);
-
-  React.useEffect(() => {
-    async function fetchCode() {
-      if (!initialCode && filePath && view === "code" && !code) {
-        try {
-          const response = await fetch(
-            `/api/code?path=${encodeURIComponent(filePath)}`
-          );
-
-          if (!response.ok) {
-            throw new Error(`Failed to fetch code: ${response.status}`);
-          }
-
-          const data = await response.json();
-          setCode(data.code);
-        } catch (error) {
-          console.error("Error fetching code:", error);
-          setCode("// Error loading code");
-        } finally {
-          setIsLoading(false);
-        }
-      }
-    }
-
-    fetchCode();
-  }, [initialCode, filePath, view, code]);
+  // Using initialCode directly since we don't need to update it
+  const [code] = React.useState<string | null>(initialCode || null);
+  // We're not dynamically loading code, so we don't need the loading state
+  const [isLoading] = React.useState(false);
 
   const copyCodeToClipboard = React.useCallback(() => {
     if (typeof navigator !== "undefined" && code) {

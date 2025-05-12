@@ -1,21 +1,24 @@
 "use client";
 
 import Link from "next/link";
-import { niches } from "@/data/blocks";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { useState } from "react";
 import { motion, MotionConfig } from "framer-motion";
 import { usePathname } from "next/navigation";
 
-// Convert niches array to menu structure
-const menuItems = niches.map((niche, index) => ({
-  id: index + 1,
-  title: niche,
-  url: `/${niche.toLowerCase()}`,
-}));
+interface CategoryNavProps {
+  niches: string[];
+}
 
-export function NavHeader() {
+export function CategoryNav({ niches }: CategoryNavProps) {
+  // Convert niches array to menu structure
+  const menuItems = niches.map((niche, index) => ({
+    id: index + 1,
+    title: niche,
+    url: `/${niche.toLowerCase()}`,
+  }));
+
   const [hovered, setHovered] = useState<number | null>(null);
   const pathname = usePathname();
 
