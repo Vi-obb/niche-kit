@@ -2,14 +2,12 @@ import { blocks } from "@/data/blocks";
 import Link from "next/link";
 import { ProductCardIllustration } from "@/components/thumbnails/ProductCard";
 
-// Map category slugs to their illustrations
 const CategoryIllustrations: Record<
   string,
   React.FC<React.SVGProps<SVGSVGElement>>
 > = {
   "product-cards": ProductCardIllustration,
-  "carts": ProductCardIllustration, 
-  
+  carts: ProductCardIllustration,
 };
 
 type Params = Promise<{
@@ -42,7 +40,6 @@ export default async function NichePage({ params }: { params: Params }) {
     <div>
       <div className="grid gap-6 grid-cols-2 md:grid-cols-4 border p-4 rounded-xl bg-background border-dashed">
         {categories.map((category) => {
-          
           const IllustrationComponent = CategoryIllustrations[category];
 
           return (

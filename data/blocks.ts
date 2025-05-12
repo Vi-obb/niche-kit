@@ -7,7 +7,7 @@ export interface Block {
   niche: string;
   category: string;
   preview: string;
-  code: string; 
+  code: string;
 }
 
 function loadCode(filePath: string): string {
@@ -22,28 +22,28 @@ export const blocks: Block[] = [
   {
     slug: "product-card-01",
     title: "Simple product card",
-    niche: "Ecommerce",
+    niche: "ecommerce",
     category: "product-cards",
     preview: "/preview/product-cards/product-card-01",
-    code: loadCode("registry/ecomm/product-card-01/product-card-01.tsx"),
+    code: loadCode("app/code/product-card-01.tsx"),
   },
   {
     slug: "product-card-02",
     title: "Product card with horizontal layout",
-    niche: "Ecommerce",
+    niche: "ecommerce",
     category: "product-cards",
     preview: "/preview/product-cards/product-card-02",
-    code: loadCode("registry/ecomm/product-card-02/product-card-02.tsx"),
+    code: loadCode("app/code/product-card-02.tsx"),
   },
 
   // Shopping Carts
   {
     slug: "cart-sheet",
     title: "Cart Sheet",
-    niche: "Ecommerce",
+    niche: "ecommerce",
     category: "carts",
     preview: "/preview/carts/cart-sheet",
-    code: loadCode("registry/ecomm/cart-sheet/cart-sheet.tsx"),
+    code: loadCode("app/code/cart-sheet.tsx"),
   },
 ];
 
