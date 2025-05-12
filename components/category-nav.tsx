@@ -12,11 +12,10 @@ interface CategoryNavProps {
 }
 
 export function CategoryNav({ niches }: CategoryNavProps) {
-  // Convert niches array to menu structure
   const menuItems = niches.map((niche, index) => ({
     id: index + 1,
     title: niche,
-    url: `/${niche.toLowerCase()}`,
+    url: `/${niche}`,
   }));
 
   const [hovered, setHovered] = useState<number | null>(null);
